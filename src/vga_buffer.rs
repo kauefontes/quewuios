@@ -61,7 +61,7 @@ impl Writer {
                     self.new_line();
                 }
 
-                let row = BUFFER_WIDTH - 1;
+                let row = BUFFER_HEIGHT - 1;
                 let col = self.colum_position;
 
                 let color_code = self.color_core;
