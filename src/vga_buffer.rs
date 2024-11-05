@@ -45,3 +45,9 @@ const BUFFER_WIDTH: usize = 80;
 struct Buffer {
     chars: [[ScreenChar; BUFFER_WIDTH]; BUFFER_HEIGHT],
 }
+
+pub struct Writer {
+    colum_position: usize,
+    color_core: ColorCode,
+    buffer: &'static mut Buffer,
+}
