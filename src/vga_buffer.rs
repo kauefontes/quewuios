@@ -51,3 +51,29 @@ pub struct Writer {
     color_core: ColorCode,
     buffer: &'static mut Buffer,
 }
+
+impl Writer {
+    pub fn write_byte(&mut self, byte: u8) {
+        match byte {
+            b'\n' => self.new_line(),
+            byte => {
+                if self.colum_position >= BUFFER_WIDTH {
+                    self.new_line();
+                }
+
+                let row = BUFFER_WIDTH - 1;
+                let col = self.colum_position;
+
+                let color_code = self.color_core;
+                self.buffer.chars[row][col] = ScreenChar {
+                    ascii_character: byte,
+                    color_code,
+                };
+                self.colum_position += 1;
+            }
+        }
+    }
+    fn new_line(&mut self) {
+        // TODO
+    }
+}
