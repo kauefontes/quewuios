@@ -75,7 +75,7 @@ impl Writer {
         }
     }
     fn new_line(&mut self) {
-        // TODO
+        // TODO: Implement this function to handle new line character '\n'
     }
     pub fn write_string(&mut self, s: &str) {
         for byte in s.bytes() {
