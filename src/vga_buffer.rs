@@ -1,4 +1,3 @@
-
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
@@ -86,4 +85,14 @@ impl Writer {
     }
 }
 
+pub fn print_something() {
+    let mut writer = Writer {
+        colum_position: 0,
+        color_core: ColorCode::new(Color::White, Color::Blue),
+        buffer: unsafe { &mut *(0xb8000 as *mut Buffer)},
+    };
+
+    writer.write_byte(b'I');
+    writer.write_string("m ");
+    writer.write_string("Alive!!");
 }
