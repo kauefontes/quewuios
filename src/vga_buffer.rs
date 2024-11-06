@@ -49,7 +49,7 @@ struct Buffer {
 
 pub struct Writer {
     colum_position: usize,
-    color_core: ColorCode,
+    color_code: ColorCode,
     buffer: &'static mut Buffer,
 }
 
@@ -65,7 +65,7 @@ impl Writer {
                 let row = BUFFER_HEIGHT - 1;
                 let col = self.colum_position;
 
-                let color_code = self.color_core;
+                let color_code = self.color_code;
                 self.buffer.chars[row][col].write(ScreenChar {
                     ascii_character: byte,
                     color_code,
@@ -88,7 +88,7 @@ impl Writer {
     fn clear_row(&mut self, row: usize) {
         let blank = ScreenChar {
             ascii_character: b' ',
-            color_code: self.color_core,
+            color_code: self.color_code,
         };
         for col in 0..BUFFER_WIDTH {
             self.buffer.chars[row][col].write(blank);
@@ -108,7 +108,7 @@ impl Writer {
 pub fn print_something() {
     let mut writer = Writer {
         colum_position: 0,
-        color_core: ColorCode::new(Color::White, Color::Blue),
+        color_code: ColorCode::new(Color::White, Color::Blue),
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer)},
     };
 
