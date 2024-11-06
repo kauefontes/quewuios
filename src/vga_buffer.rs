@@ -1,3 +1,4 @@
+use lazy_static::lazy_static;
 use volatile::Volatile;
 
 #[allow(dead_code)]
@@ -115,4 +116,12 @@ pub fn print_something() {
     writer.write_byte(b'I');
     writer.write_string("m ");
     writer.write_string("Alive!!");
+}
+
+lazy_static! {
+    pub static ref WRITER: Writer = Writer {
+        colum_position: 0,
+        color_code: ColorCode::new(Color::Yellow, Color::Black),
+        buffer: unsafe { &mut *(0x8000 as *mut Buffer)},
+    };
 }
