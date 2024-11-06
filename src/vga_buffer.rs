@@ -76,7 +76,17 @@ impl Writer {
     }
     fn new_line(&mut self) {
         // TODO: Implement this function to handle new line character '\n'
+
+    fn clear_row(&mut self, row: usize) {
+        let blank = ScreenChar {
+            ascii_character: b' ',
+            color_code: self.color_core,
+        };
+        for col in 0..BUFFER_WIDTH {
+            self.buffer.chars[row][col].write(blank);
+        }
     }
+
     pub fn write_string(&mut self, s: &str) {
         for byte in s.bytes() {
             match byte {
