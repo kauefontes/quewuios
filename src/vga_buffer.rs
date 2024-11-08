@@ -1,5 +1,7 @@
+use core::fmt;
 use lazy_static::lazy_static;
 use volatile::Volatile;
+use spin::Mutex;
 
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -106,22 +108,17 @@ impl Writer {
     }
 }
 
-pub fn print_something() {
-    let mut writer = Writer {
-        colum_position: 0,
-        color_code: ColorCode::new(Color::White, Color::Blue),
-        buffer: unsafe { &mut *(0xb8000 as *mut Buffer)},
-    };
-
-    writer.write_byte(b'I');
-    writer.write_string("m ");
-    writer.write_string("Alive!!");
+impl fmt::Write for Writer {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        self.write_string(s);
+        Ok(())
+    }
 }
 
 lazy_static! {
-    pub static ref WRITER: Writer = Writer {
-        colum_position: 0,
+    pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
+        column_position: 0,
         color_code: ColorCode::new(Color::Yellow, Color::Black),
-        buffer: unsafe { &mut *(0x8000 as *mut Buffer)},
-    };
+        buffer: unsafe { &mut *(0xb8000 as *mut Buffer)},
+    });
 }
