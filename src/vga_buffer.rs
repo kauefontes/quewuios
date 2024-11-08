@@ -49,7 +49,7 @@ struct Buffer {
 }
 
 pub struct Writer {
-    colum_position: usize,
+    column_position: usize,
     color_code: ColorCode,
     buffer: &'static mut Buffer,
 }
@@ -59,19 +59,19 @@ impl Writer {
         match byte {
             b'\n' => self.new_line(),
             byte => {
-                if self.colum_position >= BUFFER_WIDTH {
+                if self.column_position >= BUFFER_WIDTH {
                     self.new_line();
                 }
 
                 let row = BUFFER_HEIGHT - 1;
-                let col = self.colum_position;
+                let col = self.column_position;
 
                 let color_code = self.color_code;
                 self.buffer.chars[row][col].write(ScreenChar {
                     ascii_character: byte,
                     color_code,
                 });
-                self.colum_position += 1;
+                self.column_position += 1;
             }
         }
     }
@@ -83,7 +83,7 @@ impl Writer {
             }
         }
         self.clear_row(BUFFER_HEIGHT -1);
-        self.colum_position = 0;
+        self.column_position = 0;
     }
 
     fn clear_row(&mut self, row: usize) {
